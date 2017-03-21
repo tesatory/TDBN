@@ -1,0 +1,104 @@
+import java.awt.*;
+import java.awt.image.*;
+import java.awt.event.*;
+
+import javax.swing.*;
+
+class viewActivity extends JFrame{
+	TDBN net;
+
+	viewActivity(TDBN net){
+		super("net");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+			}
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				dispose();
+			}
+		});
+		this.net = net;
+		int h = 30;
+		if(net.output != null) h += net.output[0].length + 10;
+		for(int i = 0; i < net.outputhidden.length; i++)
+			if(net.outputhidden[i] != null) h += net.outputhidden[i][0].length + 10;
+		if(net.outputhidden2 != null) h += net.outputhidden2[0].length + 10;
+		setSize(net.output.length + 20,h);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+	public void paint(Graphics g){
+		int ypos = 30;
+		if(net.output != null){
+			BufferedImage img = new BufferedImage(net.output.length,
+					net.output[0].length, BufferedImage.TYPE_BYTE_GRAY);
+			WritableRaster raster = img.getRaster();
+			byte data[] = new byte[img.getWidth() * img.getHeight()];
+			int c = 0;
+			for(int y = 0; y < img.getHeight(); y++){
+				for(int x = 0; x < img.getWidth(); x++){
+					if(net.output[x][y] >= 1.5) data[c] = (byte)255;
+					else if(net.output[x][y] <= -1.5) data[c] = (byte)0;
+					else data[c] = (byte)(255.0 * (net.output[x][y] / 3.0 + 0.5));
+					c++;
+				}
+			}
+			raster.setDataElements(0, 0, img.getWidth(), img.getHeight(), data);
+			g.drawImage(img, 10, ypos, this);
+			ypos += net.output[0].length + 10;
+		}
+		for(int i = 0; i < net.outputhidden.length; i++)
+			if(net.outputhidden[i] != null){
+				BufferedImage img = new BufferedImage(net.outputhidden[i].length,
+						net.outputhidden[i][0].length, BufferedImage.TYPE_BYTE_GRAY);
+				WritableRaster raster = img.getRaster();
+				byte data[] = new byte[img.getWidth() * img.getHeight()];
+				int c = 0;
+				for(int y = 0; y < img.getHeight(); y++){
+					for(int x = 0; x < img.getWidth(); x++){
+						data[c] = (byte)(255.0 * net.outputhidden[i][x][y]);
+						c++;
+					}
+				}
+				raster.setDataElements(0, 0, img.getWidth(), img.getHeight(), data);
+				g.drawImage(img, 10, ypos, this);
+				ypos += net.outputhidden[i][0].length + 10;
+			}
+				
+		if(net.outputhidden2 != null){
+			BufferedImage img = new BufferedImage(net.outputhidden2.length,
+					net.outputhidden2[0].length, BufferedImage.TYPE_BYTE_GRAY);
+			WritableRaster raster = img.getRaster();
+			byte data[] = new byte[img.getWidth() * img.getHeight()];
+			int c = 0;
+			for(int y = 0; y < img.getHeight(); y++){
+				for(int x = 0; x < img.getWidth(); x++){
+					data[c] = (byte)(255.0 * net.outputhidden2[x][y]);
+					c++;
+				}
+			}
+			raster.setDataElements(0, 0, img.getWidth(), img.getHeight(), data);
+			g.drawImage(img, 10, ypos, this);
+		}
+//		if(net.outputhidden3 != null){
+//			BufferedImage img = new BufferedImage(net.outputhidden3.length,
+//					net.outputhidden3[0].length, BufferedImage.TYPE_BYTE_GRAY);
+//			WritableRaster raster = img.getRaster();
+//			byte data[] = new byte[img.getWidth() * img.getHeight()];
+//			int c = 0;
+//			for(int y = 0; y < img.getHeight(); y++){
+//				for(int x = 0; x < img.getWidth(); x++){
+//					data[c] = (byte)(256.0 * net.outputhidden3[x][y]);
+//					c++;
+//				}
+//			}
+//			raster.setDataElements(0, 0, img.getWidth(), img.getHeight(), data);
+//			g.drawImage(img, 20, 170, this);
+//		}
+	}
+}

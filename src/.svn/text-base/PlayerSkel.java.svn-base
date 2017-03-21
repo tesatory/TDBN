@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.*;
+
+import processing.core.PApplet;
+
+class PlayerSkel {
+	bone root;
+	HashMap<String, PlayerBone> bones;
+	float[][] data;
+	int frames;
+
+	PlayerSkel(String asfPath) throws Exception {
+		bones = new HashMap<String, PlayerBone>();
+		BufferedReader asf = new BufferedReader(new FileReader(asfPath));	    
+		parseSkel(asf);
+		data = new float[35][6];
+	}
+
+	// read skeleton parameters from an .asf file
+	void parseSkel(BufferedReader reader) throws Exception {
+		// add root manually
+		bones.put("root",
+				new PlayerBone("root",0,0,
+						0,0,0,
+						0,0,0,
+						1,1,1));
+		((PlayerBone)bones.get("root")).root = 1;
+
+		while(reader.readLine().equals(":bonedata") == false){   
+		}
+		while(reader.readLine().equals(":hierarchy") == false){
+			PlayerBone bone = new PlayerBone(reader);
+			bones.put(bone.name, bone);
+		}
+
+		// read hierarchical relations of bones
+		String[] words;
+		while(true){
+			words = reader.readLine().trim().split(" ");
+			if(words[0].equals("begin")) continue;
+			if(words[0].equals("end")) break;
+			PlayerBone bone = bones.get(words[0]);
+			bone.child = bones.get(words[1]);
+			if(words.length > 2)
+				bone.child2 = bones.get(words[2]);
+			if(words.length > 3)
+				bone.child3 = bones.get(words[3]);
+		}
+	}
+
+	// draws skeleton
+	void draw(PApplet applet, String[] amcFormatFrame) {
+		String[] words;
+		for(int i = 0; i < amcFormatFrame.length; i++) {
+			if(amcFormatFrame[i] == null) break;
+			words = amcFormatFrame[i].trim().split("\\s+");
+			if(words.length == 1) continue;
+			PlayerBone bone = bones.get(words[0]);
+			bone.readData(data,words);
+			
+		}
+		
+		((PlayerBone)bones.get("root")).draw(applet, data,null);
+	}
+
+}

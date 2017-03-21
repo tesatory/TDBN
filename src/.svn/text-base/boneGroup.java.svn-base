@@ -1,0 +1,81 @@
+public class boneGroup {
+	bone bones[];
+	int DOF;
+	
+	boneGroup(String boneNames[]){
+		bones = new bone[boneNames.length];
+		for(int i = 0; i < bones.length; i++){
+			bones[i] = new bone(boneNames[i]);
+		}	
+	}
+	
+	void readData(String[][][] data){
+		for(int bi = 0; bi < bones.length; bi++)
+			bones[bi].readData(data);
+		
+		for(int bi = 0; bi < bones.length; bi++)
+			DOF += bones[bi].DOF;
+	}
+	
+	int getModeNum(){
+		return bones[0].getModeNum();
+	}
+	
+	int getFrameLength(int mode){
+		return bones[0].getFrameLength(mode);
+	}
+
+	int getTotalFrameLength(){
+		return bones[0].getTotalFrameLength();
+	}
+	
+	double getOrigVal(int mode,int fr,int di){
+		for(int bi = 0; bi < bones.length; bi++){
+			if(di < bones[bi].DOF){
+				return bones[bi].dataOrig[mode][fr][di];
+			}
+			di -= bones[bi].DOF;
+		}
+		throw new IndexOutOfBoundsException();	
+	}
+	
+	double getNormVal(int mode,int fr,int di){
+		for(int bi = 0; bi < bones.length; bi++){
+			if(di < bones[bi].DOF){
+				return bones[bi].dataNorm[mode][fr][di];
+			}
+			di -= bones[bi].DOF;
+		}
+		throw new IndexOutOfBoundsException();	
+	}
+	
+	double[][] getOrigData(int mode){
+		double data[][] = new double[getFrameLength(mode)][DOF];
+		int d = 0;
+		for(int bi = 0; bi < bones.length; bi++){
+			for(int fr = 0; fr < data.length; fr++){
+				for(int i = 0; i < bones[bi].DOF; i++)
+					data[fr][i + d] = bones[bi].dataOrig[mode][fr][i];
+			}
+			d += bones[bi].DOF;
+		}
+		return data;
+	}
+	
+	double convertToOrig(int mode,int di,double val){
+		for(int bi = 0; bi < bones.length; bi++){
+			if(di < bones[bi].DOF){
+				return bones[bi].SD[di] * val + bones[bi].mean[di];
+			}
+			di -= bones[bi].DOF;
+		}
+		throw new IndexOutOfBoundsException();
+	}
+	
+	void printAMC(double data[],int offset, StringBuilder sb){
+		for(int i = 0; i < bones.length; i++){
+			bones[i].printAMC(data, offset, sb);
+			offset += bones[i].DOF;
+		}
+	}
+}

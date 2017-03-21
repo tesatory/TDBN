@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/deepnet/!svn/ver/11/tdbnMotion/src
+END
+TDBN.java
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/deepnet/!svn/ver/12/tdbnMotion/src/TDBN.java
+END
+viewActivity.java
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/deepnet/!svn/ver/10/tdbnMotion/src/viewActivity.java
+END
+PlayerSkel.java
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/deepnet/!svn/ver/11/tdbnMotion/src/PlayerSkel.java
+END
+layer.java
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/deepnet/!svn/ver/10/tdbnMotion/src/layer.java
+END
+stovar.java
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/deepnet/!svn/ver/10/tdbnMotion/src/stovar.java
+END
+PlayerBone.java
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/deepnet/!svn/ver/11/tdbnMotion/src/PlayerBone.java
+END
+RBM.java
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/deepnet/!svn/ver/10/tdbnMotion/src/RBM.java
+END
+boneGroup.java
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/deepnet/!svn/ver/11/tdbnMotion/src/boneGroup.java
+END
+BRBM.java
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/deepnet/!svn/ver/10/tdbnMotion/src/BRBM.java
+END
+bone.java
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/deepnet/!svn/ver/11/tdbnMotion/src/bone.java
+END
+demo.java
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/deepnet/!svn/ver/12/tdbnMotion/src/demo.java
+END
+edge.java
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/deepnet/!svn/ver/10/tdbnMotion/src/edge.java
+END
+dataset.java
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/deepnet/!svn/ver/11/tdbnMotion/src/dataset.java
+END
